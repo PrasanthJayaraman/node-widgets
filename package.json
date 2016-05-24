@@ -1,0 +1,30 @@
+{
+  "name": "node-widgets",
+  "version": "1.0.0",
+  "description": "Auto generate form elements and validation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrasanthJayaraman/node-widgets.git"
+  },
+  "keywords": [
+    "Node",
+    "Express"
+  ],
+  "author": "'Prasanth <'jprasanth74@gmail.com'>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PrasanthJayaraman/node-widgets/issues"
+  },
+  "homepage": "https://github.com/PrasanthJayaraman/node-widgets#readme",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "async": "1.5.2",
+    "ejs": "2.4.1"
+  }
+}
