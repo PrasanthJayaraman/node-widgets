@@ -20,11 +20,10 @@
     "url": "https://github.com/PrasanthJayaraman/node-widgets/issues"
   },
   "homepage": "https://github.com/PrasanthJayaraman/node-widgets#readme",
-  "engines": {
-    "node": "0.10.x"
-  },
   "dependencies": {
     "async": "1.5.2",
-    "ejs": "2.4.1"
+    "ejs": "2.4.1",
+    "nstore": "0.5.2",
+    "validator": "5.2.0"
   }
 }
