@@ -1,0 +1,11 @@
+<div>
+  <label for="<%= id %>"><%= name %></label>
+  <br>
+  <select id="<%= id %>" name="<%= name %>"  class="<%= className %>">
+    <option value=""> -- select your option -- </option>
+    <% for(var i = 0; i < value.length; i++ ) { %>
+      <option value="<%= value[i].value %>"><%= value[i].name %></option>
+    <% } %>
+  </select>
+</div>
+<br>

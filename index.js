@@ -7,6 +7,9 @@ var templatePath = path.join(__dirname, '/src/templates/');
 var textBoxTemplate = templatePath + 'text.ejs';
 var formTemplate = templatePath + 'form.ejs';
 var contentTemplate = templatePath + 'content.ejs';
+var selectTemplate = templatePath + 'select.ejs';
+var controlTemplate = templatePath + 'control.ejs';
+var textareaTemplate = templatePath + 'textarea.ejs';
 var randomName;
 
 var _data = nStore.new(templatePath + 'data.db', function () {
@@ -15,11 +18,32 @@ var _data = nStore.new(templatePath + 'data.db', function () {
 });
 
 
-function convertToHTML(name, attrs, callback){
+function convertToHTML(name, attrs, err, callback){
   var attributes = [], elem, data, type;
   var data = new Object();
   data.id = name.split(' ').join('_');
   data.name = name;
+
+  if(attrs.required == true){
+      data.err = err;
+  } else {
+    data.err = '';
+  }
+
+  if(attrs.type == 'text' || attrs.type == 'password' || attrs.type == 'number' || attrs.type == 'email'){
+    elem = textBoxTemplate;
+    data.type = attrs.type
+  } else if(attrs.type == 'submit'|| attrs.type == 'button' || attrs.type == 'hidden'){
+    elem = contentTemplate;
+    data.type = attrs.type
+  } else if(attrs.type == 'select'){
+    elem = selectTemplate;
+  } else if(attrs.type == 'checkbox' || attrs.type == 'radio'){
+    data.type = attrs.type
+    elem = controlTemplate;
+  } else if(attrs.type == 'textarea'){
+    elem = textareaTemplate;
+  }
 
   if(attrs.class != 'undefined' || attrs.class != null || attrs.class) {
     data.className = attrs.class
@@ -28,22 +52,9 @@ function convertToHTML(name, attrs, callback){
   }
 
   if(attrs.value != 'undefined' || attrs.value != null || attrs.class) {
-    data.value = attrs.value
+      data.value = attrs.value
   } else {
     data.value = ''
-  }
-
-
-  if(attrs.type == 'text' || attrs.type == 'password' || attrs.type == 'number' || attrs.type == 'email'){
-    elem = textBoxTemplate;
-    data.type = attrs.type
-  } else if(attrs.type == 'submit'|| attrs.type == 'button'){
-    elem = contentTemplate;
-    data.type = attrs.type
-    data.value = name
-  } else if(attrs.type == 'hidden'){
-    elem = contentTemplate;
-    data.type = attrs.type
   }
 
   if(typeof attrs.required != 'undefined' || attrs.required != null || attrs.required != false){
@@ -65,7 +76,7 @@ var setAttrs = function(proto, callback) {
          if (proto.hasOwnProperty(key)) {
            async.parallel([
              function(callback){
-               convertToHTML(key, proto[key], function(content){
+               convertToHTML(key, proto[key], '', function(content){
                   callback(content);
                });
              }
@@ -110,8 +121,7 @@ exports.toHTML = function(proto, cb){
             formName: formName,
             formAction: formAction,
             formMethod: formMethod,
-            keyValue : randomName,
-            errors : null
+            keyValue : randomName
         }, function(err, template){
           callback(template);
         });
@@ -129,19 +139,19 @@ exports.toHTML = function(proto, cb){
   cb(null, finalTemp);
 }
 
-function validateIndividual(name, fields, data, callback){
+function validateIndividual(name, fields, jsonData, callback){
   var errMsg = "";
-  if(typeof fields.required != 'undefined' || fields.required != null || fields.required != false){
-    if(fields.type != 'submit' || fields.type != 'button' || fields.type != 'checkbox' || fields.type != 'radio'){
+  var data = jsonData[name];
 
-      if(typeof data == 'undefined' || data == null || data.length == 0){
-        errMsg = errMsg + fields.msg
-      }
+  if(typeof fields.required != 'undefined' || fields.required != null || fields.required != false){
+    if(fields.type != 'submit' && fields.type != 'button' && fields.type != 'checkbox' && fields.type != 'radio' && fields.type != 'select'){
 
       if(fields.type == 'number'){
         if(!validator.isNumeric(data)) { errMsg = errMsg + fields.msg }
       } else if(fields.type == 'email'){
         if(!validator.isEmail(data)) { errMsg = errMsg + fields.msg }
+      } else if(typeof data == 'undefined' || data == null || data.length == 0){
+          errMsg = errMsg + fields.msg
       }
 
       if(typeof fields.minlen != 'undefined' || fields.minlen != null || fields.minlen){
@@ -168,59 +178,72 @@ function validateIndividual(name, fields, data, callback){
         }
       }
 
+      fields.value = data;
+
+    }
   }
-}
-  return errMsg;
+
+  convertToHTML(name, fields, errMsg, function(content){
+    callback(content, errMsg);
+  })
 }
 
 function validateForm(proto, data, callback){
   var temp = '';
-  var arr = []; var i = 0;
+  var errCount = 0; var i = 0;
   var fields = proto.fields;
   for(var key in fields) {
        if(fields.hasOwnProperty(key)) {
-          var msg = validateIndividual(key, fields[key], data[key]);
-          if(msg){
-            if(msg != 'undefined'){
-              arr.push({"msg" : msg })
-            }
-          }
+         async.series([
+           function(cb){
+             validateIndividual(key, fields[key], data, function(cont, err){
+               cb(cont, err);
+             });
+           }
+         ], function(data, err){
+           if(err[0]) { errCount++ }
+           temp = temp + data;
+         });
        }
   }
-  callback(null, arr);
+  callback(null, temp, errCount);
 }
 
 
 exports.validate = function(jsonData, callback) {
   var storeKey = jsonData.storekey;
   var returnData;
-  var result;
+  var resultDoc;
   async.series([
     function(cb){
       _data.get(storeKey, function (err, doc, key) {
         if (err) { cb(err, null) }
         // You now have the document
-        result = doc;
-        validateForm(doc, jsonData, function(err, content){
-          cb(null, content);
+        resultDoc = doc;
+        validateForm(doc, jsonData, function(err, content, errCount){
+          cb(null, content, errCount);
         })
       });
     }
-  ], function(err, msgs){
+  ], function(err, results){
     if(err){
-      callback(err, null)
+      callback(err, false, 'Not a valid form');
     } else {
-      ejs.renderFile(formTemplate, {
-          formContent: result.formContent,
-          formName: result.formName,
-          formAction: result.formAction,
-          formMethod: result.formMethod,
-          keyValue : storeKey,
-          errors : msgs[0]
-      }, function(err, template){
-          returnData = template;
-          callback(null, returnData);
-      });
+      var result = results[0]
+      if(typeof result[1] != 'undefined' && result[1] > 0){
+        ejs.renderFile(formTemplate, {
+            formContent: result[0],
+            formName: resultDoc.formName,
+            formAction: resultDoc.formAction,
+            formMethod: resultDoc.formMethod,
+            keyValue : storeKey
+        }, function(err, template){
+            returnData = template;
+            callback(null, false, returnData);
+        });
+      } else {
+        callback(null, true, returnData);
+      }
     }
   })
 }

@@ -1,13 +1,4 @@
 <form name="<%= formName %>" action="<%= formAction %>" method="<%= formMethod %>" novalidate>
-  <% if(errors) { %>
-  <ul>
-    <li>The following errors occured</li>
-    <% for (var i=0; i < errors.length; i++) { %>
-      <% error = errors[i]%>
-      <li><%= errors[i].msg %></li>
-    <% } %>
-  </ul>
-  <% } %>
   <%- formContent %>
   <div>
     <input type="hidden" id="storekey" name="storekey" value="<%= keyValue %>" />

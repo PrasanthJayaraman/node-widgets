@@ -1,0 +1,12 @@
+<div>
+  <% if(value) { %>
+    <label for="<%= id %>"><%= name %></label>
+    <br>
+    <% for(var i = 0; i<value.length;i++) { %>
+    <label>
+      <input type="<%= type %>" value="<%= value[i].value%>" class="<%= className %>" name="<%= name %>" ><%= value[i].name %>
+    </label>
+    <% } %>
+  <% } %>
+</div>
+<br>
