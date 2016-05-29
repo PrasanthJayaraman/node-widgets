@@ -1,6 +1,102 @@
-<form name="<%= formName %>" action="<%= formAction %>" method="<%= formMethod %>" novalidate>
-  <%- formContent %>
-  <div>
-    <input type="hidden" id="storekey" name="storekey" value="<%= keyValue %>" />
-  </div>
-</form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Node Widgets Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+  </head>
+  <body>
+    <div class="container" style="border: 3px solid #ccc;border-radius: 3px;">
+      <div class="col-lg-8 col-md-8">
+        <pre>
+          {
+          "form": "myForm",
+          "action": "/validate",
+          "method": "post",
+          "fields": {
+          	"username": {
+              "label" : "Username",
+          		"type": "text",
+              "class": "form-control",
+          		"required": true,
+              "minlen" : 10,
+              "maxlen" : 20,
+              "msg": "Username is required"
+          	},
+          	"password": {
+              "label" : "Password",
+          		"type": "password",
+              "class": "form-control",
+          		"required": true,
+          		"msg": "Password is required"
+          	},
+            "confirm" : {
+              "label" : "Confirm password",
+              "class" : "form-control",
+              "type" : "password",
+              "required" : true,
+              "match" : "password",
+              "msg" : "Confirm password do not match."
+            },
+            "email" : {
+              "label" : "Email Address",
+              "class": "form-control",
+              "type" : "email",
+              "required": true,
+              "msg": "Email Address is invalid",
+            },
+            "age" : {
+              "label" : "Age",
+              "type" : "number",
+              "class": "form-control",
+              "required": true,
+              "msg" : "Age is Invalid",
+              "minval": 10,
+              "maxval" : 80
+            },
+            "comments" : {
+              "label" : "Comments",
+              "value" : "My comments",
+              "type" : "textarea",
+              "class": "form-control"
+            },
+            "cities" : {
+              "label" : "Cities",
+              "type" : "select",
+              "class": "form-control",
+              "value" : [{ "name" : "Newyork", "value" : "newyork", "selected" : "selected"},
+                         {"name" : "California", "value" : "california"}]
+            },
+            "colors" : {
+              "label" : "Colors",
+              "type" : "checkbox",
+              "value" : [{ "name" : "Red", "value" : "red", "checked" : "checked"},
+                         {"name" : "Blue", "value" : "blue"},
+                         {"name" : "Green", "value" : "green"}]
+            },
+            "gender" : {
+              "label" : "Gender",
+              "type" : "radio",
+              "value" : [{ "name" : "Male", "value" : "male", "checked" : "checked"},
+                         {"name" : "Female", "value" : "female"}]
+            },
+          	"button": {
+          		"type": "submit",
+              "class": "btn btn-primary",
+              "value" : "Save"
+          	}
+           }
+          }
+        </pre>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <form name="<%= formName %>" action="<%= formAction %>" method="<%= formMethod %>" novalidate>
+          <%- formContent %>
+          <div>
+            <input type="hidden" id="storekey" name="storekey" value="<%= keyValue %>" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

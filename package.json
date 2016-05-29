@@ -1,6 +1,6 @@
 {
   "name": "node-widgets",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Auto generate form elements and validation",
   "main": "index.js",
   "scripts": {
