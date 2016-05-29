@@ -1,9 +1,8 @@
 <div>
-  <label for="<%= id %>"><%= name %></label>
+  <label for="<%= id %>"><%= label %></label>
   <br>
   <input type="<%= type %>" id="<%= id %>" name="<%= name %>" class="<%= className %>" value="<%= value %>" placeholder="<%= name %>" <%= required %> />
-  <% if(err.length > 1) { %>
-  <br>
+  <% if(err.length > 1) { %>  
   <span style="color:red"><%= err %></span>
   <% } %>
 </div>

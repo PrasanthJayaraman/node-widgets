@@ -23,12 +23,9 @@ function convertToHTML(name, attrs, err, callback){
   var data = new Object();
   data.id = name.split(' ').join('_');
   data.name = name;
+  data.label = attrs.label || name;
 
-  if(attrs.required == true){
-      data.err = err;
-  } else {
-    data.err = '';
-  }
+  if(attrs.required == true){  data.err = err; } else {  data.err = ''; }
 
   if(attrs.type == 'text' || attrs.type == 'password' || attrs.type == 'number' || attrs.type == 'email'){
     elem = textBoxTemplate;
@@ -45,23 +42,11 @@ function convertToHTML(name, attrs, err, callback){
     elem = textareaTemplate;
   }
 
-  if(attrs.class != 'undefined' || attrs.class != null || attrs.class) {
-    data.className = attrs.class
-  } else {
-    data.className = ''
-  }
+  if(attrs.class) { data.className = attrs.class } else {  data.className = '' }
 
-  if(attrs.value != 'undefined' || attrs.value != null || attrs.class) {
-      data.value = attrs.value
-  } else {
-    data.value = ''
-  }
+  if(attrs.value) { data.value = attrs.value } else { data.value = '' }
 
-  if(typeof attrs.required != 'undefined' || attrs.required != null || attrs.required != false){
-    data.required = 'required';
-  } else {
-    data.required = '';
-  }
+  if(attrs.required){ data.required = 'required' } else { data.required = ''; }
 
   ejs.renderFile(elem, data, function(err, element){
     if(err) throw err;
@@ -143,38 +128,53 @@ function validateIndividual(name, fields, jsonData, callback){
   var errMsg = "";
   var data = jsonData[name];
 
-  if(typeof fields.required != 'undefined' || fields.required != null || fields.required != false){
+  var label = fields['label'] || name;
+
+  if(typeof fields.required != 'undefined' && fields.required != null && fields.required != false){
     if(fields.type != 'submit' && fields.type != 'button' && fields.type != 'checkbox' && fields.type != 'radio' && fields.type != 'select'){
 
+      if(typeof fields.msg == 'undefined' || fields.msg == null){
+        fields.msg = label + ' is required.'
+      }
+
       if(fields.type == 'number'){
-        if(!validator.isNumeric(data)) { errMsg = errMsg + fields.msg }
+        if(!validator.isNumeric(data)) { errMsg = errMsg + fields.msg + " " }
       } else if(fields.type == 'email'){
-        if(!validator.isEmail(data)) { errMsg = errMsg + fields.msg }
+        if(!validator.isEmail(data)) { errMsg = errMsg + fields.msg + " " }
       } else if(typeof data == 'undefined' || data == null || data.length == 0){
-          errMsg = errMsg + fields.msg
+          errMsg = errMsg + fields.msg + " "
       }
 
       if(typeof fields.minlen != 'undefined' || fields.minlen != null || fields.minlen){
         if(data.length <= fields.minlen){
-          errMsg = errMsg + " " + name + " min length should be " + fields.minlen + ". "
+          errMsg = errMsg + " " + label + " min length should be " + fields.minlen + ". "
         }
       }
 
       if(typeof fields.maxlen != 'undefined' || fields.maxlen != null || fields.maxlen){
         if(data.length > fields.maxlen){
-          errMsg = errMsg + " " + name + " max length should be " + fields.maxlen + ". "
+          errMsg = errMsg + " " + label + " max length should be " + fields.maxlen + ". "
         }
       }
 
       if(typeof fields.minval != 'undefined' || fields.minval != null || fields.minval){
         if(data < fields.minval){
-          errMsg = errMsg + " " + name + " min value is " + fields.minval + ". "
+          errMsg = errMsg + " " + label + " min value is " + fields.minval + ". "
         }
       }
 
       if(typeof fields.maxval != 'undefined' || fields.maxval != null || fields.maxval){
-        if(data >= fields.maxval){
-          errMsg = errMsg + " " + name + " max value is " + fields.maxval + ". "
+        if(data > fields.maxval){
+          errMsg = errMsg + " " + label + " max value is " + fields.maxval + ". "
+        }
+      }
+
+      if(typeof fields.match != 'undeifned' || fields.match != null || fields.match){
+        var firstArg = jsonData[fields.match];
+        if(firstArg){
+          if(data != firstArg){
+            errMsg = errMsg + fields.msg;
+          }
         }
       }
 

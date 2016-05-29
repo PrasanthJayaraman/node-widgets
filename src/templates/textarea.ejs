@@ -1,7 +1,7 @@
 <div>
-  <label for="<%= id %>"><%= name %></label>
+  <label for="<%= id %>"><%= label %></label>
   <br>
-  <textarea class="<%= className %>" placeholder="<%= name %>" name="<%= name %>" id="<%= id %>" value="<%= value %>" rows="5" ></textarea>
+  <textarea class="<%= className %>" placeholder="<%= name %>" name="<%= name %>" id="<%= id %>" rows="5" ><%= value %></textarea>
   <% if(err.length > 1) { %>
   <br>
   <span style="color:red"><%= err %></span>
