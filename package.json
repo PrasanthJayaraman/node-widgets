@@ -1,0 +1,31 @@
+{
+  "name": "nodedynamicform",
+  "version": "1.0.0",
+  "description": "A form generation library using nodeJS",
+  "main": "cluster.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrasanthJayaraman/NodeDynamicForm.git"
+  },
+  "keywords": [
+    "Express",
+    "Forms"
+  ],
+  "author": "Prasanth Jayaraman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrasanthJayaraman/NodeDynamicForm/issues"
+  },
+  "homepage": "https://github.com/PrasanthJayaraman/NodeDynamicForm#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "bunyan": "^1.8.1",
+    "domain": "0.0.1",
+    "express": "^4.13.4",
+    "node-widgets": "1.0.0",
+    "bootstrap" : "3.3.6" 
+  }
+}
