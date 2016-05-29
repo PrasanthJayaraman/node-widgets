@@ -1,8 +1,6 @@
 var nodeWidget = require('node-widgets');
 var bodyParser = require('body-parser');
 
-console.log(nodeWidget);
-
 exports.generateForm = function(req, res, next){
   var incomingJson = {
     "form": "myForm",
