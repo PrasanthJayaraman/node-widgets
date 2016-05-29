@@ -14,7 +14,6 @@ var randomName;
 
 var _data = nStore.new(templatePath + 'data.db', function () {
   // It's loaded now
-  console.log("Local Storage created");
 });
 
 
@@ -115,7 +114,6 @@ exports.toHTML = function(proto, cb){
     function(callback){
       _data.save(randomName, {"fields": fields, "formName": formName, "formAction" : formAction, "formMethod": formMethod, "formContent": tempContent}, function(err) {
         if(err) throw err;
-        console.log('stored in local storage');
       })
     }
   ], function(data){
@@ -242,7 +240,16 @@ exports.validate = function(jsonData, callback) {
             callback(null, false, returnData);
         });
       } else {
-        callback(null, true, returnData);
+        ejs.renderFile(formTemplate, {
+            formContent: result[0],
+            formName: resultDoc.formName,
+            formAction: resultDoc.formAction,
+            formMethod: resultDoc.formMethod,
+            keyValue : storeKey
+        }, function(err, template){
+            returnData = template;
+            callback(null, true, returnData);
+        });
       }
     }
   })

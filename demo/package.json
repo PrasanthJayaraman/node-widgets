@@ -1,0 +1,22 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "A demo of node widget",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "forms"
+  ],
+  "author": "'Prasanth <'jprasanth74@gmail.com'>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.15.1",
+    "express": "4.13.4",
+    "node-widgets": "1.1.1"
+  }
+}
