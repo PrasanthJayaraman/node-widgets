@@ -5,8 +5,13 @@
     <title>Node Widgets Demo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
   </head>
-  <body>
+  <body style="padding:20px;">
     <div class="container" style="border: 3px solid #ccc;border-radius: 3px;">
+      <div style="text-align:center">
+        <h2>Node Widgets</h2>
+        <h4>A NodeJS Module to generate form elements with validation..</h4>
+        <h4><a target="_blank" href="https://github.com/PrasanthJayaraman/node-widgets">view source</a></h4>
+      </div>
       <div class="col-lg-8 col-md-8">
         <pre>
           {
@@ -16,19 +21,19 @@
           "fields": {
           	"username": {
               "label" : "Username",
-          		"type": "text",
+          	  "type": "text",
               "class": "form-control",
-          		"required": true,
+          	  "required": true,
               "minlen" : 10,
               "maxlen" : 20,
               "msg": "Username is required"
           	},
           	"password": {
               "label" : "Password",
-          		"type": "password",
+          	  "type": "password",
               "class": "form-control",
-          		"required": true,
-          		"msg": "Password is required"
+          	  "required": true,
+          	  "msg": "Password is required"
           	},
             "confirm" : {
               "label" : "Confirm password",
@@ -81,7 +86,7 @@
                          {"name" : "Female", "value" : "female"}]
             },
           	"button": {
-          		"type": "submit",
+          	  "type": "submit",
               "class": "btn btn-primary",
               "value" : "Save"
           	}
