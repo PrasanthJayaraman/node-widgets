@@ -2,13 +2,13 @@
 
 A NodeJS module for form generation with validation. This creates a form and form elements on server and return it to client using a json object called from client. You can edit the attributes in the json object and that reflects on the form elements.
 
-_Version 1.1.2_
+_Version 1.1.3_
 
 The supported form elements are ``` text, password, hidden, number, email, url, textarea, select, checkbox, radio ``` and validations are supported to ``` text, password, number, email, url, taxtarea ```
 
 ## Demo
 
-1. Clone the repository and go to demo folder and type ```npm install``` to install the necessary packages. 
+1. Clone the repository and go to demo folder and type ```npm install``` to install the necessary packages.
 2. Type ```node server```. Then go to ```localhost:1234``` or see the command prompt or terminal to know the port that app is running...
 
 _Or_
@@ -27,7 +27,7 @@ So this install the dependencies and node-widgets module to your project and the
 
 ### Json Object
 
-The Json object tells the library to create form and form elements that required. 
+The Json object tells the library to create form and form elements that required.
 
 This is a basic json object.
 
@@ -35,7 +35,7 @@ This is a basic json object.
 {
 "form": "myForm",         //form name you need - optional (auto generated a form name if not)
 "action": "/validate",    // method that form need to call - you can change this based on your routes/requirement
-"method": "post",         // method type 
+"method": "post",         // method type
 "fields": {               // you need to mention this "fields"to create fields you required.
   "username": {           // this is the name of the element
     "label" : "Username",           // this is setted as label - optional
@@ -43,7 +43,7 @@ This is a basic json object.
     "class": "form-control",        // CSS class you need to render
     "required": true,               // required ? helps for validation : no validation takes place
     "minlen" : 10,                  // min length you allow
-    "maxlen" : 20,                  // max length allow 
+    "maxlen" : 20,                  // max length allow
     "msg": "Username is required"   // Error message that needs to render for required attribute (for min/max auto msg generated)
   },
    "age" : {              // Name of the element  
@@ -59,17 +59,17 @@ This is a basic json object.
 }
 ```
 
-So the common attributes for an input element are 
+So the common attributes for an input element are
 
 1. label
-2. type 
+2. type
 3. class
-4. value 
+4. value
 
 Attributes that helps validation are
 
 1. required   - Boolean
-2. minlen     - Numeric 
+2. minlen     - Numeric
 3. maxlen     - Numeric
 4. minval     - Numeric
 5. maxval     - Numeric
@@ -103,18 +103,18 @@ var inputs = {
       }
     }
   }
-  
+
 // create the form with json object
 nodeWidget.toHTML(inputs, function(err, form){
   if(err) { throw err; }
-  // form - is the template rendered HTML elements 
+  // form - is the template rendered HTML elements
 });
 
 ```
 
 #### validate
 
-This method helps to validate the form, If form is valid it returns ```true``` with the complete form with data. if form is not valid then it returns ```false``` with updated form with error message and data.. 
+This method helps to validate the form, If form is valid it returns ```true``` with the complete form with data. if form is not valid then it returns ```false``` with updated form with error message and data..
 
 ```javascript
 
