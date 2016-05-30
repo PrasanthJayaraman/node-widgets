@@ -53,6 +53,13 @@ exports.generateForm = function(req, res, next){
         "type" : "textarea",
         "class": "form-control"
       },
+      "website" : {
+        "label" : "Website",
+        "type" : "url",
+        "class": "form-control",
+        "required" : true,
+        "msg" : "Url is required"
+      },
       "cities" : {
         "label" : "Cities",
         "type" : "select",

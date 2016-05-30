@@ -26,7 +26,7 @@ function convertToHTML(name, attrs, err, callback){
 
   if(attrs.required == true){  data.err = err; } else {  data.err = ''; }
 
-  if(attrs.type == 'text' || attrs.type == 'password' || attrs.type == 'number' || attrs.type == 'email'){
+  if(attrs.type == 'text' || attrs.type == 'password' || attrs.type == 'number' || attrs.type == 'email' || attrs.type == 'url'){
     elem = textBoxTemplate;
     data.type = attrs.type
   } else if(attrs.type == 'submit'|| attrs.type == 'button' || attrs.type == 'hidden'){
@@ -139,6 +139,8 @@ function validateIndividual(name, fields, jsonData, callback){
         if(!validator.isNumeric(data)) { errMsg = errMsg + fields.msg + " " }
       } else if(fields.type == 'email'){
         if(!validator.isEmail(data)) { errMsg = errMsg + fields.msg + " " }
+      } else if(fields.type == 'url'){
+        if(!validator.isURL(data)) { errMsg = errMsg + fields.msg + " " }
       } else if(typeof data == 'undefined' || data == null || data.length == 0){
           errMsg = errMsg + fields.msg + " "
       }
