@@ -9,7 +9,7 @@ The supported form elements are ``` text, password, hidden, number, email, url, 
 ## Demo
 
 1. Clone the repository and go to demo folder and type ```npm install``` to install the necessary packages. 
-2. Type ```node server```. Then go to ```localhot:1234``` or see the cmd promt or terminal to know the port that app is running...
+2. Type ```node server```. Then go to ```localhost:1234``` or see the command prompt or terminal to know the port that app is running...
 
 _Or_
 
