@@ -4,6 +4,8 @@ A NodeJS module for form generation with validation. This creates a form and for
 
 _Version 1.1.1_
 
+The supported form elements are ``` text, password, hidden, number, email, url, textarea, select, checkbox, radio ``` and validations are supported to ``` text, password, number, email, url, taxtarea ```
+
 ## Demo
 
 1. Clone the repository and go to demo folder and type ```npm install``` to install the necessary packages. 
