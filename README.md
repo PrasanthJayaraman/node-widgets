@@ -1,8 +1,8 @@
-# NodeDynamicForm
+# Node Widgets
 
 A NodeJS module for form generation with validation. This creates a form and form elements on server and return it to client using a json object called from client. You can edit the attributes in the json object and that reflects on the form elements.
 
-_Version 1.1.1_
+_Version 1.1.2_
 
 The supported form elements are ``` text, password, hidden, number, email, url, textarea, select, checkbox, radio ``` and validations are supported to ``` text, password, number, email, url, taxtarea ```
 
